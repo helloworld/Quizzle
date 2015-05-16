@@ -73,8 +73,10 @@ var grid = function(serverState, localState) {
     var twelve_column = document.createElement("div");
     twelve_column.className = "twelve wide column";
 
-    var cardListEL = cardList(serverState, localState);
-    twelve_column.appendChild(cardListEL);
+    // var cardListEL = cardList(serverState, localState);
+    // twelve_column.appendChild(cardListEL);
+    var tableEL = table(serverState, localState);
+    twelve_column.appendChild(tableEL);
 
     div.appendChild(four_column);
     div.appendChild(twelve_column);
@@ -175,4 +177,63 @@ var cardList = function(serverState, localState){
 
 }
 
+var tableRow = function(label, question){
+    var div = document.createElement("tr");
+
+    var td = document.createElement("td");
+    td.className = "collapsing";
+
+    var a = document.createElement("a");
+    a.className = "ui blue label";
+    a.textContent = label;
+
+    var q = document.createElement('td');
+    q.textContent = question;
+
+    var button = document.createElement('td');
+    button.className = "right aligned collapsing";
+    var buttonHelper = document.createElement('div');
+    buttonHelper.className = "ui right labeled icon button";
+    var i = document.createElement('i');
+    i.className = "right arrow icon";
+    var words = document.createElement('span');
+    words.textContent = "Add";
+
+    buttonHelper.appendChild(i);
+    buttonHelper.appendChild(words);
+    button.appendChild(buttonHelper);
+
+    td.appendChild(a);
+    div.appendChild(td);
+    div.appendChild(q);
+    div.appendChild(button);
+
+    return div;
+}
+
+var table = function(serverState, localState){
+    var questions = [{label:'SAT', question:"A special lottery is to be held to select the student who will live in the only deluxe room in a dormitory. There are 100 seniors, 150 juniors, and 200 sophomores who applied. Each senior's name is placed in the lottery 3 times; each junior's name, 2 times; and each sophomore's name, 1 time. What is the probability that a senior's name will be chosen?"}, {label:'Math', question: "The projected sales volume of a video game cartridge is given by the function s of p = 3000 over ((2 times p) + a) where s is the number of cartridges sold, in thousands; p is the price per cartridge, in dollars; and a is a constant. If according to the projections, 100000 cartridges are sold at 10 dollars per cartridge, how many cartridges will be sold at 20 dollars per cartridge?"}];
+
+    var div = document.createElement("table");
+    div.className = "ui celled striped table";
+
+    var head = document.createElement("thead");
+    var headRow = document.createElement("tr");
+    var headH = document.createElement("th");
+    headH.setAttribute('colspan', '3');
+    headH.textContent = "Questions";
+
+    headRow.appendChild(headH);
+    head.appendChild(headRow);
+    div.appendChild(head);
+
+    var body = document.createElement("tbody");
+
+    for (var i = questions.length - 1; i >= 0; i--) {
+        body.appendChild(tableRow(questions[i].label, questions[i].question));
+    };
+
+    div.appendChild(body);
+
+    return div;
 }
