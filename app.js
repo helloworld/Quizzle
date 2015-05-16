@@ -34,7 +34,10 @@ route.get('/index.html', function(req, res){
     res.redirect(301, '/');
 });
 
+route.get('/', router.index);
 route.get('/admin', router.admin);
+route.get('/user', router.user);
+
 
 app.use('/', route);
 
