@@ -73,6 +73,9 @@ var grid = function(serverState, localState) {
     var twelve_column = document.createElement("div");
     twelve_column.className = "twelve wide column";
 
+    var cardListEL = cardList(serverState, localState);
+    twelve_column.appendChild(cardListEL);
+
     div.appendChild(four_column);
     div.appendChild(twelve_column);
 
@@ -98,12 +101,12 @@ var menu = function(serverState, localState) {
     var control_panel = document.createElement("a");
     classString = localState.activeMenuItem == "control_panel" ? "active item" : "item"
     control_panel.className = classString;
-    control_panel.textContent = "Control Panel"
+    control_panel.textContent = "Control Panel";
 
     var users = document.createElement("a");
     classString = localState.activeMenuItem == "users" ? "active item" : "item"
     users.className = classString;
-    users.textContent = "Users"
+    users.textContent = "Users";
 
     var label = document.createElement("div");
     label.className = "ui teal label";
@@ -115,7 +118,7 @@ var menu = function(serverState, localState) {
     return div;
 }
 
-var card = function(serverState, localState){
+var card = function(playerName, status, socketID){
 
 	// <div class="card">
 	//     <div class="content">
@@ -126,5 +129,50 @@ var card = function(serverState, localState){
 	//         </div>
 	//     </div>
 	// </div>
-	
+
+    var div = document.createElement("div");
+    div.className = "card";
+
+    var content = document.createElement("div")
+    content.className = "content";
+
+    var header = document.createElement("div")
+    header.textContent = playerName;
+    header.className = "header";
+    
+    var meta = document.createElement("div")
+    meta.textContent = status;
+    meta.className = "meta";
+
+	var description = document.createElement("div")
+    description.textContent = socketID;
+    description.className = "description";
+
+    content.appendChild(header);
+    content.appendChild(meta);
+    content.appendChild(description);
+
+    div.appendChild(content);
+
+    return div;
+}
+
+var cardList = function(serverState, localState){
+
+    var users = [{name: "Rachel", status: "Connected", socketID: "xmjh298374j"}, {name: "Sashank", status: "Connected", socketID: "asdfghjkl"}, {name: "Srijith", status: "Not Connected", socketID: "iurewiufehjf"}]
+    
+    // <div class = "ui cards">
+    // </div>
+
+    var div = document.createElement("div");
+    div.className = "ui cards";
+
+    for (var i = users.length - 1; i >= 0; i--) {
+        div.appendChild(card(users[i].name, users[i].status, users[i].socketID));
+    };
+
+    return div;
+
+}
+
 }
