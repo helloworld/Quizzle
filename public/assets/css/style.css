@@ -15,9 +15,19 @@ h1 {
     color: #ecf0f1;
 }
 
-
 .intro-header {
-	color: white;
-	font-size: 5em;
+    color: white;
+    font-size: 5em;
     text-align: center;
+}
+
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 30px;
+    background: #2c3e50;
+    border: 0px none black;
 }

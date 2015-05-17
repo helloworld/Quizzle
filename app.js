@@ -22,6 +22,9 @@ route.get('/', router.index);
 route.get('/admin', router.admin);
 route.get('/user', router.user);
 route.get('/screen', router.screen);
+route.get('/tablet1', router.tablet1);
+route.get('/tablet2', router.tablet2);
+route.get('/tablet3', router.tablet3);
 
 
 app.use('/', route);
@@ -72,7 +75,7 @@ var sendStateToAdmin = function() {
     }
 
     if (admin) {
-        screen.emit("update:state", state);
+        admin.emit("update:state", state);
     }
 }
 
@@ -87,15 +90,40 @@ var sendStateToScreen = function() {
     }
 }
 
+var sendStateToTablet = function(index) {
+    state = {}
+    if (players[index].tablet_id) {
+        players[index].tablet_id.emit("update:state", state);
+    }
+}
+
 io.on('connection', function(socket) {
     socket.on("admin:join", function() {
         console.log("admin:join", socket._id);
         admin = socket;
         sendStateToAdmin();
     });
-    socket.on("screen:join", function(player) {
-    	console.log("screen:join", socket._id);
-    	screen = socket;
-    	sendStateToScreen();
-    })
+    socket.on("screen:join", function() {
+        console.log("screen:join", socket._id);
+        screen = socket;
+        sendStateToScreen();
+    });
+    socket.on("tablet:1:join", function() {
+        console.log("tablet:1:join", socket._id);
+
+        players[0].tablet_id = socket;
+        sendStateToTablet(0);
+    });
+    socket.on("tablet:2:join", function() {
+        console.log("tablet:2:join", socket._id);
+
+        players[1].tablet_id = socket;
+        sendStateToTablet(1);
+    });
+    socket.on("tablet:3:join", function() {
+        console.log("tablet:3:join", socket._id);
+
+        players[2].tablet_id = socket;
+        sendStateToTablet(2);
+    });
 });
