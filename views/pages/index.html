@@ -3,6 +3,8 @@
 
 <head>
     <title>User</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.2/semantic.min.js"></script>
     <meta charset="utf-8">
     <meta name="description" content="{{seo.notFound.description}}">
     <link href="assets/css/semantic.min.css" rel="stylesheet">
@@ -15,7 +17,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div id="b" class="container">
         <div class="ui grid">
             <div class="two wide column"></div>
             <div class="twelve wide column">
@@ -30,12 +32,12 @@
                         <div class="content">
                           <div class="header"> Teacher</div>
                         </div>
-                        <a href="/admin.html">
-                        <div class="ui bottom attached button">
+                        <!-- <a href="/admin"> -->
+                        <div id="butt" class="ui bottom attached button">
                           For teacher
                           <i class="long arrow right icon"></i>
                         </div>
-                        </a>
+                        <!-- </a> -->
                     </div>
                 </div>
               </div>
@@ -47,7 +49,7 @@
                         <div class="content">
                           <div class="header">Student</div>
                         </div>
-                        <a href="/users.html">
+                        <a href="/users">
                         <div class="ui bottom attached button">
                           For student
                           <i class="long arrow right icon"></i>
@@ -64,7 +66,7 @@
                         <div class="content">
                           <div class="header">Screen</div>
                         </div>
-                        <a href="/screen.html">
+                        <a href="/screen">
                         <div class="ui bottom attached button">
                           Go to screen
                           <i class="long arrow right icon"></i>
@@ -76,7 +78,32 @@
             </div>
             <div class="two wide column"></div>
         </div>    
+    <div id="mod" class="ui modal">
+      <div class="header">
+        Class code
+      </div>
+      <div class="content">
+        <div class="image">
+          Enter class code
+        </div>
+        <div class="description">
+          <div class="ui input">
+             <input type="text" placeholder="Key...">
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui button">Submit</div>
+      </div>
     </div>
+</div>
+<script>
+    $('#butt').click(function() {
+        $('#mod').modal('show');
+        
+    }); 
+
+</script>
 </body>
 
 </html>

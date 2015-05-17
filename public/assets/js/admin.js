@@ -76,6 +76,8 @@ var grid = function(serverState, localState) {
 
     // var cardListEL = cardList(serverState, localState);
     // twelve_column.appendChild(cardListEL);
+    var scoresEL = scores(serverState, localState);
+    twelve_column.appendChild(scoresEL);
     var tableEL = table(serverState, localState);
     twelve_column.appendChild(tableEL);
 
@@ -263,4 +265,49 @@ var table = function(serverState, localState) {
     div.appendChild(body);
 
     return div;
+}
+
+var score = function(name, score) {
+
+    var div = document.createElement('div');
+    div.className = 'column center aligned';
+
+    var stat = document.createElement('div');
+    stat.className = 'ui statistic';
+
+    var value = document.createElement('div');
+    value.className = "text value";
+    value.textContent = score;
+
+    var n = document.createElement('div');
+    n.className = 'label';
+    n.textContent = name;
+
+    stat.appendChild(value);
+    stat.appendChild(n);
+
+    div.appendChild(stat);
+
+    return div;
+
+}
+
+var scores = function(serverState, localState) {
+    var students = [{name:'Sahith', score:'one hundred'}, {name:"Srijith", score: 'ten'}]
+
+    var seg = document.createElement('div');
+    seg.className = "ui segment";
+
+    var div = document.createElement('div');
+    div.className = 'ui three column divided grid';
+
+    for (var i in students){
+        var current = students[i];
+        var scoreEL = score(current.name, current.score);
+        div.appendChild(scoreEL);
+    };
+
+    seg.appendChild(div);
+
+    return seg;
 }
