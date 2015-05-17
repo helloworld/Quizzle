@@ -1,4 +1,4 @@
-var socket; 
+var socket;
 
 var serverState = {}
 
@@ -46,12 +46,12 @@ var clearContainer = function(e) {
     return true;
 }
 
-var hashCode = function(str){
+var hashCode = function(str) {
     var hash = 0;
     if (str.length == 0) return hash;
     for (i = 0; i < str.length; i++) {
         char = str.charCodeAt(i);
-        hash = ((hash<<5)-hash)+char;
+        hash = ((hash << 5) - hash) + char;
         hash = hash & hash; // Convert to 32bit integer
     }
     return hash;
@@ -327,6 +327,10 @@ var table = function(serverState, localState) {
     head.appendChild(headRow);
     div.appendChild(head);
 
+    var addNewQ = newQuestion();
+
+    div.appendChild(addNewQ);
+
     var body = document.createElement("tbody");
 
     for (var i in questions) {
@@ -338,4 +342,60 @@ var table = function(serverState, localState) {
     div.appendChild(body);
 
     return div;
+}
+
+var newQuestion = function() {
+    //     <tr>
+    //     <td class="collapsing"><a class="ui blue label">SAT</a>
+    //     </td>
+    //     <td>A special lottery is to be held to select the student who will live in the only deluxe room in a dormitory. There are 100 seniors, 150 juniors, and 200 sophomores who applied. Each senior's name is placed in the lottery 3 times; each junior's name, 2 times; and each sophomore's name, 1 time. What is the probability that a senior's name will be chosen?</td>
+    //     <td class="right aligned collapsing">
+    //         <div class="ui right labeled icon button"><i class="right arrow icon"></i><span>Add</span>
+    //         </div>
+    //     </td>
+    // </tr>
+
+    // <div class="field">
+    //     <textarea></textarea>
+    //   </div>
+    var row = document.createElement('tr');
+    var td = document.createElement('td');
+    td.className = 'collapsing';
+    var input = document.createElement('div');
+    input.className = 'field';
+    var text = document.createElement('textarea');
+
+    input.appendChild(text);
+    td.appendChild(input);
+
+    td2 = document.createElement('td');
+    td2.className = 'collapsing';
+    var input2 = document.createElement('div');
+    input2.className = 'field';
+    var text2 = document.createElement('textarea');
+
+    input2.appendChild(text2);
+    td2.appendChild(input2);
+
+    td3 = document.createElement('td');
+    td3.className = 'collapsing';
+
+    var button = document.createElement('div');
+    button.className = "ui right labeled icon button";
+
+    var icon = document.createElement('i');
+    icon.className = "right arrow icon";
+    button.appendChild(icon);
+
+    var buttonText = document.createElement('span');
+    buttonText.textContent = "Add";
+    button.appendChild(buttonText);
+
+    td3.appendChild(button);
+
+    row.appendChild(td);
+    row.appendChild(td2);
+    row.appendChild(td3);
+    return row;
+
 }
