@@ -88,20 +88,24 @@
         </div>
         <div class="description">
           <div class="ui input">
-             <input type="text" placeholder="Key...">
+             <input id="inp" type="text" placeholder="Key...">
           </div>
         </div>
       </div>
       <div class="actions">
-        <div class="ui button">Submit</div>
+        <div class="ui button" id="sub">Submit</div>
       </div>
     </div>
 </div>
 <script>
     $('#butt').click(function() {
         $('#mod').modal('show');
-        
     }); 
+    $('#sub').click(function() {
+        var val = $('#inp').val();
+        var link = "admin/"+val;
+        window.location.href = link;
+    });
 
 </script>
 </body>
