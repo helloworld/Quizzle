@@ -56,8 +56,7 @@ var createCanvas = function() {
     butt.addEventListener("click", function(event) {
         var image = new Image();
         image.src = canvas.toDataURL("image/png");
-        var imgDATA = image.src.replace(/^data:image\/(png|jpg);base64,/, "");
-        socket.emit("image", 0, imgDATA);
+        socket.emit("image", 0, image.src);
     });
 
     div.appendChild(h1);
