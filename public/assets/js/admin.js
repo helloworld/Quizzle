@@ -1,32 +1,4 @@
-var serverState = {
-    players: [{
-        name: "Player 1",
-        score: 0,
-        _id: null,
-    }, {
-        name: "Player 2",
-        score: 0,
-        _id: null,
-    }, {
-        name: "Player 3",
-        score: 0,
-        _id: null,
-    }, {
-        name: "Player 4",
-        score: 0,
-        _id: null,
-    }],
-    questions: [{
-        label: "SAT",
-        question: "A special lottery is to be held to select the student who will live in the only deluxe room in a dormitory. There are 100 seniors, 150 juniors, and 200 sophomores who applied. Each senior's name is placed in the lottery 3 times; each junior's name, 2 times; and each sophomore's name, 1 time. What is the probability that a senior's name will be chosen?"
-    }, {
-        label: "Math",
-        question: "The projected sales volume of a video game cartridge is given by the function s of p = 3000 over ((2 times p) + a) where s is the number of cartridges sold, in thousands; p is the price per cartridge, in dollars; and a is a constant. If according to the projections, 100000 cartridges are sold at 10 dollars per cartridge, how many cartridges will be sold at 20 dollars per cartridge?"
-    }, ],
-    navigation: {
-        menu: "Control Panel",
-    }
-}
+var serverState = {}
 
 var localState = {
     activeMenuItem: "control_panel"
@@ -49,14 +21,14 @@ var localStateHelpers = {
 document.addEventListener("DOMContentLoaded", function(event) {
     var socket = io();
     initializeSocket(socket);
-    renderView(serverState, localState);
 });
 
 var initializeSocket = function(socket) {
+    socket.emit("admin:join");
     socket.on("update:state", function(state) {
         serverState = state;
         renderView(serverState, localState);
-    })
+    });
 }
 
 var clearContainer = function(e) {
@@ -78,6 +50,12 @@ var renderView = function(serverState, localState) {
 
     var gridEL = grid(serverState, localState);
     container.appendChild(gridEL);
+
+    initializeTriggers();
+}
+
+var initializeTriggers = function(){
+
 }
 
 var title = function() {
@@ -111,10 +89,10 @@ var grid = function(serverState, localState) {
     var twelve_column = document.createElement("div");
     twelve_column.className = "twelve wide column";
 
-    // var cardListEL = cardList(serverState, localState);
-    // twelve_column.appendChild(cardListEL);
-    var tableEL = table(serverState, localState);
-    twelve_column.appendChild(tableEL);
+    // var child = localState.activeMenuItem == "control_panel" ? 
+
+    var userEl = user(serverState, localState);
+    twelve_column.appendChild(userEl);
 
     div.appendChild(four_column);
     div.appendChild(twelve_column);
@@ -197,7 +175,7 @@ var card = function(playerName, status, socketID) {
     return div;
 }
 
-var cardList = function(serverState, localState) {
+var user = function(serverState, localState) {
 
     // <div class = "ui cards">
     // </div>
@@ -209,12 +187,26 @@ var cardList = function(serverState, localState) {
 
     for (var i in users) {
         var current = users[i];
-        var cardEl = card(current.name, current.status, current.socketID)
+        var status = current._id == null ? 'Not Connected' : 'Connected'
+        var cardEl = card(current.name, status, current._id)
         div.appendChild(cardEl);
     };
 
     return div;
 
+}
+
+var controlPanel = function(serverState, localState){
+
+    var div = document.createElement("div");
+
+    var scoreEL = scoreSegment(serverState, localState);
+    var tableEL = table(serverState, localState);
+
+    div.appendChild(scoreEL);
+    div.appendChild(tableEL);
+
+    return div;
 }
 
 var tableRow = function(category, question) {
@@ -255,14 +247,53 @@ var tableRow = function(category, question) {
     return div;
 }
 
+var scoreSegment = function(serverState, localState){
+
+    var players = serverState.players; 
+
+    var segment = document.createElement("div");
+    segment.className = "ui segment";
+
+    var div = document.createElement("div");
+    div.className = "ui three column divided grid";
+
+    for(i in players){
+        var current = players[i];
+        var scoreEl = score(current.name, current.score);
+        div.appendChild(scoreEl);
+    }
+
+    segment.appendChild(div);
+
+    return segment;
+}
+
+var score = function(name, score){
+
+    var div = document.createElement("div");
+    div.className = "column center aligned"
+
+    var statistic = document.createElement("div");
+    statistic.className = "ui statistic";
+
+    var scoreValue = document.createElement("div");
+    scoreValue.className = "text value";
+    scoreValue.textContent = score;
+
+    var nameValue = document.createElement("div");
+    nameValue.className = "label";
+    nameValue.textContent = name;
+
+    statistic.appendChild(scoreValue);
+    statistic.appendChild(nameValue);
+
+    div.appendChild(statistic);
+
+    return div;
+}
+
 var table = function(serverState, localState) {
-    var questions = [{
-        label: 'SAT',
-        question: "A special lottery is to be held to select the student who will live in the only deluxe room in a dormitory. There are 100 seniors, 150 juniors, and 200 sophomores who applied. Each senior's name is placed in the lottery 3 times; each junior's name, 2 times; and each sophomore's name, 1 time. What is the probability that a senior's name will be chosen?"
-    }, {
-        label: 'Math',
-        question: "The projected sales volume of a video game cartridge is given by the function s of p = 3000 over ((2 times p) + a) where s is the number of cartridges sold, in thousands; p is the price per cartridge, in dollars; and a is a constant. If according to the projections, 100000 cartridges are sold at 10 dollars per cartridge, how many cartridges will be sold at 20 dollars per cartridge?"
-    }];
+    var questions = serverState.questions;
 
     var div = document.createElement("table");
     div.className = "ui celled striped table";
