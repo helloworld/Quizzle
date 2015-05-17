@@ -18,6 +18,7 @@ var localStateHelpers = {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
+    var socket = io();
     renderView(serverState, localState);
 });
 
