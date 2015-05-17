@@ -1,4 +1,29 @@
-var serverState = {}
+var serverState = {
+    players: [{
+        name: "Player 1",
+        score: 0,
+        _id: null,
+    }, {
+        name: "Player 2",
+        score: 0,
+        _id: null,
+    }, {
+        name: "Player 3",
+        score: 0,
+        _id: null,
+    }, {
+        name: "Player 4",
+        score: 0,
+        _id: null,
+    }],
+    questions: [{
+        label: "SAT",
+        question: "A special lottery is to be held to select the student who will live in the only deluxe room in a dormitory. There are 100 seniors, 150 juniors, and 200 sophomores who applied. Each senior's name is placed in the lottery 3 times; each junior's name, 2 times; and each sophomore's name, 1 time. What is the probability that a senior's name will be chosen?"
+    }, {
+        label: "Math",
+        question: "The projected sales volume of a video game cartridge is given by the function s of p = 3000 over ((2 times p) + a) where s is the number of cartridges sold, in thousands; p is the price per cartridge, in dollars; and a is a constant. If according to the projections, 100000 cartridges are sold at 10 dollars per cartridge, how many cartridges will be sold at 20 dollars per cartridge?"
+    }, ]
+}
 var localState = {
     activeMenuItem: "control_panel"
 }
@@ -19,8 +44,16 @@ var localStateHelpers = {
 
 document.addEventListener("DOMContentLoaded", function(event) {
     var socket = io();
+    initializeSocket(socket);
     renderView(serverState, localState);
 });
+
+var initializeSocket = function(socket) {
+    socket.on("update:state", function(state) {
+        serverState = state;
+        renderView(serverState, localState);
+    })
+}
 
 var clearContainer = function(e) {
     if (!e) {
