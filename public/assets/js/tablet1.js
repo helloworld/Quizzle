@@ -40,6 +40,8 @@ var renderView = function(serverState) {
 
 var createCanvas = function() {
     var div = document.createElement('div');
+    var h1 = document.createElement('h1');
+    h1.textContent = 'Player 1';
     // <canvas id="canvas"></canvas>
     var canvas = document.createElement('canvas');
     canvas.id = 'sheet';
@@ -58,6 +60,7 @@ var createCanvas = function() {
         socket.emit("image", 0, imgDATA);
     });
 
+    div.appendChild(h1);
     div.appendChild(canvas);
     div.appendChild(document.createElement('br'))
     div.appendChild(butt);
