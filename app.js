@@ -146,6 +146,7 @@ io.on('connection', function(socket) {
             _id: _id,
             question: question,
         });
+        saveQuestions();
         sendStateToAdmin();
     });
 });
