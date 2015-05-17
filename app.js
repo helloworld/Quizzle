@@ -59,10 +59,15 @@ var questions = [{
     question: "The projected sales volume of a video game cartridge is given by the function s of p = 3000 over ((2 times p) + a) where s is the number of cartridges sold, in thousands; p is the price per cartridge, in dollars; and a is a constant. If according to the projections, 100000 cartridges are sold at 10 dollars per cartridge, how many cartridges will be sold at 20 dollars per cartridge?"
 },]
 
+var navigation = {
+	menu: "Control Panel";
+}
+
 var sendStateToAdmin = function() {
     state = {
         players: players,
         questions: questions,
+        navigation: navigation,
     }
 
     if(admin){
