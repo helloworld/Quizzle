@@ -1,6 +1,7 @@
 var express = require('express'),
     http = require('http'),
     hbs = require('hbs'),
+    fs = require("fs"),
     router = require(__dirname + '/routes').router;
 
 var app = express();
@@ -55,13 +56,8 @@ var players = [{
     phone_id: null,
 }, ];
 
-var questions = [{
-    label: "SAT",
-    question: "A special lottery is to be held to select the student who will live in the only deluxe room in a dormitory. There are 100 seniors, 150 juniors, and 200 sophomores who applied. Each senior's name is placed in the lottery 3 times; each junior's name, 2 times; and each sophomore's name, 1 time. What is the probability that a senior's name will be chosen?"
-}, {
-    label: "Math",
-    question: "The projected sales volume of a video game cartridge is given by the function s of p = 3000 over ((2 times p) + a) where s is the number of cartridges sold, in thousands; p is the price per cartridge, in dollars; and a is a constant. If according to the projections, 100000 cartridges are sold at 10 dollars per cartridge, how many cartridges will be sold at 20 dollars per cartridge?"
-}, ]
+
+var questions = require("./public/assets/questions.json");;
 
 var currentQuestion = {
     label: "None",
@@ -97,6 +93,12 @@ var sendStateToTablet = function(index) {
     }
 }
 
+var saveQuestions = function() {
+    fs.writeFile("questions.json", JSON.stringify(questions), "utf8", function() {
+        console.log("Questions Saved");
+    });
+}
+
 io.on('connection', function(socket) {
     socket.on("admin:join", function() {
         console.log("admin:join", socket._id);
@@ -126,4 +128,7 @@ io.on('connection', function(socket) {
         players[2].tablet_id = socket;
         sendStateToTablet(2);
     });
+    socket.on("admin:newquestion", function(label, question){
+        
+    })
 });
