@@ -64,8 +64,8 @@ var questions = [{
 }, ]
 
 var currentQuestion = {
-    label: "SAT",
-    question: "A special lottery is to be held to select the student who will live in the only deluxe room in a dormitory. There are 100 seniors, 150 juniors, and 200 sophomores who applied. Each senior's name is placed in the lottery 3 times; each junior's name, 2 times; and each sophomore's name, 1 time. What is the probability that a senior's name will be chosen?"
+    label: "None",
+    question: "No Question Selected"
 };
 
 var sendStateToAdmin = function() {
