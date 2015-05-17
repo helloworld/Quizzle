@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="description" content="{{seo.notFound.description}}">
     <link href="assets/css/semantic.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.2/components/icon.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -15,45 +16,66 @@
 
 <body>
     <div class="container">
-        <h1>Index</h1>
-        <div class="ui cards">
-  <div class="card">
-    <div class="content">
-      <div class="header">Elliot Fu</div>
-      <div class="description">
-        Elliot Fu is a film-maker from New York.
-      </div>
-    </div>
-    <div class="ui bottom attached button">
-      <i class="add icon"></i>
-      Add Friend
-    </div>
-  </div>
-  <div class="card">
-    <div class="content">
-      <div class="header">Veronika Ossi</div>
-      <div class="description">
-        Veronika Ossi is a set designer living in New York who enjoys kittens, music, and partying.
-      </div>
-    </div>
-    <div class="ui bottom attached button">
-      <i class="add icon"></i>
-      Add Friend
-    </div>
-  </div>
-  <div class="card">
-    <div class="content">
-      <div class="header">Jenny Hess</div>
-      <div class="description">
-        Jenny is a student studying Media Management at the New School
-      </div>
-    </div>
-    <div class="ui bottom attached button">
-      <i class="add icon"></i>
-      Add Friend
-    </div>
-  </div>
-</div>
+        <div class="ui grid">
+            <div class="two wide column"></div>
+            <div class="twelve wide column">
+                <h1 class="intro-header" >Who are you?</h1>
+            </div>
+            <div class="two wide column"></div>
+            <div class="two wide column"></div>
+            <div class="four wide column">
+              <div class="ui segment">
+                <div class="ui cards">
+                    <div class="card">
+                        <div class="content">
+                          <div class="header">Teacher</div>
+                        </div>
+                        <a href="/admin.html">
+                        <div class="ui bottom attached button">
+                          For teacher
+                          <i class="long arrow right icon"></i>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="four wide column">
+              <div class="ui segment">
+                <div class="ui cards">
+                    <div class="card">
+                        <div class="content">
+                          <div class="header">Student</div>
+                        </div>
+                        <a href="/users.html">
+                        <div class="ui bottom attached button">
+                          For student
+                          <i class="long arrow right icon"></i>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="four wide column">
+              <div class="ui segment">
+                <div class="ui cards">
+                    <div class="card">
+                        <div class="content">
+                          <div class="header">Screen</div>
+                        </div>
+                        <a href="/screen.html">
+                        <div class="ui bottom attached button">
+                          Go to screen
+                          <i class="long arrow right icon"></i>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="two wide column"></div>
+        </div>    
     </div>
 </body>
 

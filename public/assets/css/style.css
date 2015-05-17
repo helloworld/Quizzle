@@ -14,3 +14,10 @@ body {
 h1 {
     color: #ecf0f1;
 }
+
+
+.intro-header {
+	color: white;
+	font-size: 5em;
+    text-align: center;
+}
