@@ -50,12 +50,6 @@ var renderView = function(serverState, localState) {
 
     var gridEL = grid(serverState, localState);
     container.appendChild(gridEL);
-
-    initializeTriggers();
-}
-
-var initializeTriggers = function(){
-
 }
 
 var title = function() {
@@ -89,10 +83,8 @@ var grid = function(serverState, localState) {
     var twelve_column = document.createElement("div");
     twelve_column.className = "twelve wide column";
 
-    // var child = localState.activeMenuItem == "control_panel" ? 
-
-    var userEl = user(serverState, localState);
-    twelve_column.appendChild(userEl);
+    var child = localState.activeMenuItem == "control_panel" ? controlPanel(serverState, localState) : user(serverState, localState);
+    twelve_column.appendChild(child);
 
     div.appendChild(four_column);
     div.appendChild(twelve_column);
@@ -120,11 +112,24 @@ var menu = function(serverState, localState) {
     classString = localState.activeMenuItem == "control_panel" ? "active item" : "item"
     control_panel.className = classString;
     control_panel.textContent = "Control Panel";
+    control_panel.id = "control_panel";
+
+    control_panel.addEventListener("click", function(event) {
+        localStateHelpers.menu.switchMenuTo("control_panel");
+        renderView(serverState, localState);
+    });
+
 
     var users = document.createElement("a");
     classString = localState.activeMenuItem == "users" ? "active item" : "item"
     users.className = classString;
     users.textContent = "Users";
+    users.id = "user";
+
+    users.addEventListener("click", function(event) {
+        localStateHelpers.menu.switchMenuTo("users");
+        renderView(serverState, localState);
+    });
 
     var label = document.createElement("div");
     label.className = "ui teal label";
@@ -133,10 +138,11 @@ var menu = function(serverState, localState) {
 
     div.appendChild(control_panel);
     div.appendChild(users);
+
     return div;
 }
 
-var card = function(playerName, status, socketID) {
+var card = function(playerName, status, tablet_id, phone_id) {
 
     // <div class="card">
     //     <div class="content">
@@ -163,7 +169,7 @@ var card = function(playerName, status, socketID) {
     meta.className = "meta";
 
     var description = document.createElement("div")
-    description.textContent = socketID;
+    description.innerHTML = "tablet_id: " + tablet_id + "<br/> phone_id: " + phone_id;
     description.className = "description";
 
     content.appendChild(header);
@@ -187,8 +193,8 @@ var user = function(serverState, localState) {
 
     for (var i in users) {
         var current = users[i];
-        var status = current._id == null ? 'Not Connected' : 'Connected'
-        var cardEl = card(current.name, status, current._id)
+        var status = (current.tablet_id == null || current.phone_id == null) ? 'Not Ready' : 'Ready'
+        var cardEl = card(current.name, status, current.tablet_id, current.phone_id);
         div.appendChild(cardEl);
     };
 
@@ -196,7 +202,7 @@ var user = function(serverState, localState) {
 
 }
 
-var controlPanel = function(serverState, localState){
+var controlPanel = function(serverState, localState) {
 
     var div = document.createElement("div");
 
@@ -247,9 +253,9 @@ var tableRow = function(category, question) {
     return div;
 }
 
-var scoreSegment = function(serverState, localState){
+var scoreSegment = function(serverState, localState) {
 
-    var players = serverState.players; 
+    var players = serverState.players;
 
     var segment = document.createElement("div");
     segment.className = "ui segment";
@@ -257,7 +263,7 @@ var scoreSegment = function(serverState, localState){
     var div = document.createElement("div");
     div.className = "ui three column divided grid";
 
-    for(i in players){
+    for (i in players) {
         var current = players[i];
         var scoreEl = score(current.name, current.score);
         div.appendChild(scoreEl);
@@ -268,7 +274,7 @@ var scoreSegment = function(serverState, localState){
     return segment;
 }
 
-var score = function(name, score){
+var score = function(name, score) {
 
     var div = document.createElement("div");
     div.className = "column center aligned"

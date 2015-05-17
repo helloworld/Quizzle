@@ -36,15 +36,18 @@ var admin;
 var players = [{
     name: "Player 1",
     score: 0,
-    _id: null,
+    tablet_id: null,
+    phone_id: null,
 }, {
     name: "Player 2",
     score: 0,
-    _id: null,
+    tablet_id: null,
+    phone_id: null,
 }, {
     name: "Player 3",
     score: 0,
-    _id: null,
+    tablet_id: null,
+    phone_id: null,
 }, ];
 
 var questions = [{
