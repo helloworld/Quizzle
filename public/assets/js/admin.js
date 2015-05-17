@@ -217,7 +217,40 @@ var controlPanel = function(serverState, localState) {
     return div;
 }
 
-var tableRow = function(category, question) {
+var table = function(serverState, localState) {
+    var questions = serverState.questions;
+
+    var div = document.createElement("table");
+    div.className = "ui celled striped table";
+
+    var head = document.createElement("thead");
+    var headRow = document.createElement("tr");
+    var headH = document.createElement("th");
+    headH.setAttribute('colspan', '3');
+    headH.textContent = "Questions";
+
+    headRow.appendChild(headH);
+    head.appendChild(headRow);
+    div.appendChild(head);
+
+    var addNewQ = newQuestion();
+
+    div.appendChild(addNewQ);
+
+    var body = document.createElement("tbody");
+
+    for (var i in questions) {
+        var current = questions[i];
+        var tableRowEL = tableRow(current.label, current.question, current._id);
+        body.appendChild(tableRowEL);
+    };
+
+    div.appendChild(body);
+
+    return div;
+}
+
+var tableRow = function(category, question, id) {
     var div = document.createElement("tr");
 
     var row1 = document.createElement("td");
@@ -245,6 +278,10 @@ var tableRow = function(category, question) {
     var buttonText = document.createElement('span');
     buttonText.textContent = "Add";
     button.appendChild(buttonText);
+
+    button.addEventListener("click", function(event){
+        socket.emit("admin:question", id);
+    });
 
     row3.appendChild(button);
 
@@ -300,38 +337,6 @@ var score = function(name, score) {
     return div;
 }
 
-var table = function(serverState, localState) {
-    var questions = serverState.questions;
-
-    var div = document.createElement("table");
-    div.className = "ui celled striped table";
-
-    var head = document.createElement("thead");
-    var headRow = document.createElement("tr");
-    var headH = document.createElement("th");
-    headH.setAttribute('colspan', '3');
-    headH.textContent = "Questions";
-
-    headRow.appendChild(headH);
-    head.appendChild(headRow);
-    div.appendChild(head);
-
-    var addNewQ = newQuestion();
-
-    div.appendChild(addNewQ);
-
-    var body = document.createElement("tbody");
-
-    for (var i in questions) {
-        var current = questions[i];
-        var tableRowEL = tableRow(current.label, current.question, current._id);
-        body.appendChild(tableRowEL);
-    };
-
-    div.appendChild(body);
-
-    return div;
-}
 
 var newQuestion = function() {
     // <tr>

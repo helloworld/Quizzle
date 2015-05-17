@@ -1,7 +1,8 @@
 var serverState = {};
+var socket;
 
 document.addEventListener("DOMContentLoaded", function(event) {
-    var socket = io();
+    socket = io();
     initializeSocket(socket);
 });
 
@@ -42,13 +43,20 @@ var createCanvas = function() {
     // <canvas id="canvas"></canvas>
     var canvas = document.createElement('canvas');
     canvas.id = 'sheet';
-    canvas.setAttribute("width", "800");
-    canvas.setAttribute("height", "400"); 
+    canvas.setAttribute("width", "1000");
+    canvas.setAttribute("height", "600");
     // < div class = "ui toggle button" >
     //     Vote < /div>
     var butt = document.createElement('div');
     butt.className = 'massive ui button';
     butt.textContent = 'Submit';
+
+    butt.addEventListener("click", function(event) {
+        var image = new Image();
+        image.src = canvas.toDataURL("image/png");
+        var imgDATA = image.src.replace(/^data:image\/(png|jpg);base64,/, "");
+        socket.emit("image", 0, imgDATA);
+    });
 
     div.appendChild(canvas);
     div.appendChild(document.createElement('br'))

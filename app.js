@@ -37,27 +37,32 @@ var server = http.createServer(app).listen(port, function() {
 });
 
 var io = require('socket.io').listen(server);
-var admin, screen;
+
+var admin = null
+var screen = null;
 
 var players = [{
     name: "Player 1",
     score: 0,
     tablet_id: null,
     phone_id: null,
+    answer: null
 }, {
     name: "Player 2",
     score: 0,
     tablet_id: null,
     phone_id: null,
+    answer: null
 }, {
     name: "Player 3",
     score: 0,
     tablet_id: null,
     phone_id: null,
+    answer: null
 }, ];
 
 
-var questions = require("./public/assets/questions.json");;
+var questions = require("./public/assets/questions.json");
 
 var currentQuestion = {
     label: "None",
@@ -65,7 +70,7 @@ var currentQuestion = {
 };
 
 var sendStateToAdmin = function() {
-    state = {
+    var state = {
         players: players,
         questions: questions,
     }
@@ -76,7 +81,7 @@ var sendStateToAdmin = function() {
 }
 
 var sendStateToScreen = function() {
-    state = {
+    var state = {
         players: players,
         currentQuestion: currentQuestion,
     }
@@ -87,16 +92,13 @@ var sendStateToScreen = function() {
 }
 
 var sendStateToTablet = function(index) {
-    state = {}
+    var state = {}
     if (players[index].tablet_id) {
-        players[index].tablet_id.emit("update:state", state);
+        if (players[index].tablet_id) {
+            var target = players[index].tablet_id;
+            target.emit("update:state", state);
+        }
     }
-}
-
-var saveQuestions = function() {
-    fs.writeFile("questions.json", JSON.stringify(questions), "utf8", function() {
-        console.log("Questions Saved");
-    });
 }
 
 var hashCode = function(str) {
@@ -110,43 +112,81 @@ var hashCode = function(str) {
     return hash;
 }
 
+var findQuestion = function(id) {
+    for (i in questions) {
+        if (questions[i]._id == id) {
+            return questions[i];
+        }
+    }
+}
+
 io.on('connection', function(socket) {
     socket.on("admin:join", function() {
-        console.log("admin:join", socket._id);
+        console.log("admin:join", socket.id);
         admin = socket;
         sendStateToAdmin();
     });
     socket.on("screen:join", function() {
-        console.log("screen:join", socket._id);
+        console.log("screen:join", socket.id);
         screen = socket;
         sendStateToScreen();
     });
     socket.on("tablet:1:join", function() {
-        console.log("tablet:1:join", socket._id);
-
+        console.log("tablet:1:join", socket.id);
         players[0].tablet_id = socket;
         sendStateToTablet(0);
     });
     socket.on("tablet:2:join", function() {
-        console.log("tablet:2:join", socket._id);
-
+        console.log("tablet:2:join", socket.id);
         players[1].tablet_id = socket;
         sendStateToTablet(1);
+        sendStateToAdmin();
     });
     socket.on("tablet:3:join", function() {
-        console.log("tablet:3:join", socket._id);
-
+        console.log("tablet:3:join", socket.id);
         players[2].tablet_id = socket;
         sendStateToTablet(2);
+        sendStateToAdmin();
+
     });
     socket.on("admin:newquestion", function(label, question) {
         var _id = hashCode(question);
-        questions.append({
+        questions.push({
             label: label,
             _id: _id,
             question: question,
         });
-        saveQuestions();
+        fs.writeFile("./public/assets/questions.json", JSON.stringify(questions), "utf8", function() {
+            console.log("Questions Saved");
+        });
         sendStateToAdmin();
     });
+    socket.on("admin:question", function(id) {
+        var q = findQuestion(id);
+        currentQuestion = q;
+        sendStateToScreen();
+    });
+    socket.on("image", function(index, img){
+        players[index].answer = img;
+        sendStateToScreen();
+    })
+    socket.on("disconnect", function() {
+        if (socket == admin) {
+            console.log("Admin Disconnected");
+            admin = null;
+        }
+        if (socket == players[0].tablet_id) {
+            console.log("Tablet" + "0" + "Disconnected")
+            players[0].tablet_id = null;
+        }
+        if (socket == players[1].tablet_id) {
+            console.log("Tablet" + "1" + "Disconnected")
+            players[1].tablet_id = null;
+        }
+        if (socket == players[2].tablet_id) {
+            console.log("Tablet" + "2" + "Disconnected")
+            players[2].tablet_id = null;
+        }
+        sendStateToAdmin();
+    })
 });

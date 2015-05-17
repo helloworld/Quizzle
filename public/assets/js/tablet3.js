@@ -42,8 +42,8 @@ var createCanvas = function() {
     // <canvas id="canvas"></canvas>
     var canvas = document.createElement('canvas');
     canvas.id = 'sheet';
-    canvas.setAttribute("width", "800");
-    canvas.setAttribute("height", "400"); 
+    canvas.setAttribute("width", "1000");
+    canvas.setAttribute("height", "600"); 
     // < div class = "ui toggle button" >
     //     Vote < /div>
     var butt = document.createElement('div');
