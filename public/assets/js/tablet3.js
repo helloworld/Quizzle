@@ -39,6 +39,8 @@ var renderView = function(serverState) {
 
 var createCanvas = function() {
     var div = document.createElement('div');
+    var h1 = document.createElement('h1');
+    h1.textContent = 'Player 3';
     // <canvas id="canvas"></canvas>
     var canvas = document.createElement('canvas');
     canvas.id = 'sheet';
@@ -50,6 +52,7 @@ var createCanvas = function() {
     butt.className = 'massive ui button';
     butt.textContent = 'Submit';
 
+    div.appendChild(h1);
     div.appendChild(canvas);
     div.appendChild(document.createElement('br'))
     div.appendChild(butt);
