@@ -46,17 +46,6 @@ var clearContainer = function(e) {
     return true;
 }
 
-var hashCode = function(str) {
-    var hash = 0;
-    if (str.length == 0) return hash;
-    for (i = 0; i < str.length; i++) {
-        char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
-    }
-    return hash;
-}
-
 var renderView = function(serverState, localState) {
     var container = document.querySelector(".container");
     clearContainer(container);
@@ -335,7 +324,7 @@ var table = function(serverState, localState) {
 
     for (var i in questions) {
         var current = questions[i];
-        var tableRowEL = tableRow(current.label, current.question);
+        var tableRowEL = tableRow(current.label, current.question, current._id);
         body.appendChild(tableRowEL);
     };
 
@@ -345,7 +334,7 @@ var table = function(serverState, localState) {
 }
 
 var newQuestion = function() {
-    //     <tr>
+    // <tr>
     //     <td class="collapsing"><a class="ui blue label">SAT</a>
     //     </td>
     //     <td>A special lottery is to be held to select the student who will live in the only deluxe room in a dormitory. There are 100 seniors, 150 juniors, and 200 sophomores who applied. Each senior's name is placed in the lottery 3 times; each junior's name, 2 times; and each sophomore's name, 1 time. What is the probability that a senior's name will be chosen?</td>
@@ -358,12 +347,14 @@ var newQuestion = function() {
     // <div class="field">
     //     <textarea></textarea>
     //   </div>
+
     var row = document.createElement('tr');
     var td = document.createElement('td');
     td.className = 'collapsing';
     var input = document.createElement('div');
     input.className = 'field';
     var text = document.createElement('textarea');
+    text.id = "labelText"
 
     input.appendChild(text);
     td.appendChild(input);
@@ -373,6 +364,7 @@ var newQuestion = function() {
     var input2 = document.createElement('div');
     input2.className = 'field';
     var text2 = document.createElement('textarea');
+    text2.id = "questionText"
 
     input2.appendChild(text2);
     td2.appendChild(input2);
@@ -390,6 +382,12 @@ var newQuestion = function() {
     var buttonText = document.createElement('span');
     buttonText.textContent = "Add";
     button.appendChild(buttonText);
+
+    button.addEventListener("click", function(event) {
+        var label = document.querySelector("#labelText").value;
+        var question = document.querySelector("#questionText").value;
+        socket.emit("admin:newquestion", label, question);
+    });
 
     td3.appendChild(button);
 
