@@ -8,4 +8,7 @@ exports.router = {
     user: function(req, res) {
         res.render('user');
     },
+    screen: function(req, res) {
+        res.render('screen');
+    },
 };

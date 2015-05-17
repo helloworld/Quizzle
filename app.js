@@ -21,6 +21,8 @@ route.get('/index.html', function(req, res) {
 route.get('/', router.index);
 route.get('/admin', router.admin);
 route.get('/user', router.user);
+route.get('/screen', router.screen);
+
 
 app.use('/', route);
 
@@ -31,7 +33,7 @@ var server = http.createServer(app).listen(port, function() {
 });
 
 var io = require('socket.io').listen(server);
-var admin;
+var admin, screen;
 
 var players = [{
     name: "Player 1",
@@ -56,7 +58,9 @@ var questions = [{
 }, {
     label: "Math",
     question: "The projected sales volume of a video game cartridge is given by the function s of p = 3000 over ((2 times p) + a) where s is the number of cartridges sold, in thousands; p is the price per cartridge, in dollars; and a is a constant. If according to the projections, 100000 cartridges are sold at 10 dollars per cartridge, how many cartridges will be sold at 20 dollars per cartridge?"
-},]
+}, ]
+
+var currentQuestion = {};
 
 var sendStateToAdmin = function() {
     state = {
@@ -64,10 +68,20 @@ var sendStateToAdmin = function() {
         questions: questions,
     }
 
-    if(admin){
-    	admin.emit("update:state", state);
+    if (admin) {
+        screen.emit("update:state", state);
+    }
+}
+
+var sendStateToScreen = function() {
+    state = {
+        players: players,
+        currentQuestion: currentQuestion,
     }
 
+    if (screen) {
+        screen.emit("update:state", state);
+    }
 }
 
 io.on('connection', function(socket) {
@@ -76,7 +90,7 @@ io.on('connection', function(socket) {
         admin = socket;
         sendStateToAdmin();
     });
-    socket.on("user:join", function(player) {
+    socket.on("scr:join", function(player) {
 
     })
 });
