@@ -90,7 +90,9 @@ io.on('connection', function(socket) {
         admin = socket;
         sendStateToAdmin();
     });
-    socket.on("scr:join", function(player) {
-
+    socket.on("screen:join", function(player) {
+    	console.log("screen:join", socket._id);
+    	screen = socket;
+    	sendStateToScreen();
     })
 });
