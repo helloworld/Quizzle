@@ -33,7 +33,7 @@
                           <div class="header">Teacher</div>
                         </div>
                         <!-- <a href="/admin"> -->
-                        <div id="butt" class="ui bottom attached button">
+                        <div id="buttAdmin" class="ui bottom attached button">
                           For teacher
                           <i class="long arrow right icon"></i>
                         </div>
@@ -49,12 +49,12 @@
                         <div class="content">
                           <div class="header">Student</div>
                         </div>
-                        <a href="/users">
-                        <div class="ui bottom attached button">
+                        <!--<a href="/users">-->
+                        <div id = "buttUser" class="ui bottom attached button">
                           For student
                           <i class="long arrow right icon"></i>
                         </div>
-                        </a>
+                        <!--</a>-->
                     </div>
                 </div>
               </div>
@@ -78,7 +78,7 @@
             </div>
             <div class="two wide column"></div>
         </div>    
-    <div id="mod" class="ui modal">
+    <div id="modAdmin" class="ui modal">
       <div class="header">
         Class code
       </div>
@@ -96,17 +96,90 @@
         <div class="ui button" id="sub">Submit</div>
       </div>
     </div>
+    <div id="modUser" class="ui modal">
+      <div class="header">
+        Choose a device
+        </div>
+        <div class = "content">
+        <div class="large ui buttons">
+          <div class="ui pink button" id = "phone">Phone</div>
+          <div class="ui teal button" id = "tablet">Tablet</div>
+        </div>
+      </div>
+     </div>
+    <div id="whichPhone" class="ui modal">
+      <div class="header">
+        Which phone?
+        </div>
+        <div class = "content">
+        <div class="large ui buttons">
+          <div class="ui purple button" style="padding-right: 50px;padding-left: 50px;" id = "phone1">Phone 1</div>
+          <div class="ui yellow button" style="padding-right: 50px;padding-left: 50px;" id = "phone2">Phone 2</div>
+          <div class="ui blue button" style="padding-right: 50px;padding-left: 50px;" id = "phone3">Phone 3</div>
+        </div>
+      </div>
+     </div>
+    <div id="whichTablet" class="ui modal">
+      <div class="header">
+        Which tablet?
+        </div>
+        <div class = "content">
+        <div class="large ui buttons">
+          <div class="ui purple button" style="padding-right: 50px;padding-left: 50px;" id = "tablet1">Tablet 1</div>
+          <div class="ui yellow button" style="padding-right: 50px;padding-left: 50px;" id = "tablet2">Tablet 2</div>
+          <div class="ui blue button" style="padding-right: 50px;padding-left: 50px;" id = "tablet3">Tablet 3</div>
+        </div>
+      </div>
+     </div>
 </div>
 <script>
-    $('#butt').click(function() {
-        $('#mod').modal('show');
+    $('#buttAdmin').click(function() {
+        $('#modAdmin').modal('show');
     }); 
+    $('#buttUser').click(function() {
+        $('#modUser').modal('show');
+    });
+    $('#phone').click(function() {
+        $('#whichPhone').modal('show');
+    }); 
+    $('#tablet').click(function() {
+        $('#whichTablet').modal('show');
+    });
     $('#sub').click(function() {
         var val = $('#inp').val();
         var link = "admin/"+val;
         window.location.href = link;
     });
-
+    $('#tablet1').click(function() {
+        var val = "tablet1";
+        var link = "users/"+val;
+        window.location.href = link;
+    });
+    $('#tablet2').click(function() {
+        var val = "tablet2";
+        var link = "users/"+val;
+        window.location.href = link;
+    });
+    $('#tablet3').click(function() {
+        var val = "tablet3";
+        var link = "users/"+val;
+        window.location.href = link;
+    });
+    $('#phone1').click(function() {
+        var val = "phone1";
+        var link = "users/"+val;
+        window.location.href = link;
+    });
+    $('#phone2').click(function() {
+        var val = "phone2";
+        var link = "users/"+val;
+        window.location.href = link;
+    });
+    $('#phone3').click(function() {
+        var val = "phone3";
+        var link = "users/"+val;
+        window.location.href = link;
+    });
 </script>
 </body>
 
