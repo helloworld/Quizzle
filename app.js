@@ -99,6 +99,17 @@ var saveQuestions = function() {
     });
 }
 
+var hashCode = function(str) {
+    var hash = 0;
+    if (str.length == 0) return hash;
+    for (i = 0; i < str.length; i++) {
+        char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
+
 io.on('connection', function(socket) {
     socket.on("admin:join", function() {
         console.log("admin:join", socket._id);
@@ -128,7 +139,14 @@ io.on('connection', function(socket) {
         players[2].tablet_id = socket;
         sendStateToTablet(2);
     });
-    socket.on("admin:newquestion", function(label, question){
-        
-    })
+    socket.on("admin:newquestion", function(label, question) {
+        var _id = hashCode(question);
+        questions.append({
+            label: label,
+            _id: _id,
+            question: question,
+        });
+        saveQuestions();
+        sendStateToAdmin();
+    });
 });

@@ -16,7 +16,7 @@ exports.router = {
     },
     tablet2: function(req, res) {
         res.render('tablet2');
-    },
+    }, 
     tablet3: function(req, res) {
         res.render('tablet3');
     },
